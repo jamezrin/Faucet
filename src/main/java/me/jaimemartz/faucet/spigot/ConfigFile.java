@@ -1,10 +1,9 @@
-package me.jaimemartz.faucet.bungee;
+package me.jaimemartz.faucet.spigot;
 
 import me.jaimemartz.faucet.ConfigEntry;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.config.ConfigurationProvider;
-import net.md_5.bungee.config.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,12 +12,12 @@ import java.util.Set;
 
 public class ConfigFile {
     private final int id;
-    private final Plugin owner;
+    private final JavaPlugin owner;
     private final File file;
     private final Set<ConfigEntry> entries;
-    private Configuration config;
+    private FileConfiguration config;
 
-    public ConfigFile(int id, Plugin owner, String name) {
+    public ConfigFile(int id, JavaPlugin owner, String name) {
         this.id = id;
         this.owner = owner;
         entries = new LinkedHashSet<>();
@@ -27,12 +26,12 @@ public class ConfigFile {
 
     @SuppressWarnings("unchecked")
     public void load(boolean update) throws IOException {
-        config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+        config = YamlConfiguration.loadConfiguration(file);
         if (update) {
             for (ConfigEntry entry : entries) {
                 entry.set(config.get(entry.getPath(), entry.get()));
                 if (entry instanceof CustomConfigEntry) {
-                    ((CustomConfigEntry) entry).load(config.getSection(entry.getPath()));
+                    ((CustomConfigEntry) entry).load(config.getConfigurationSection(entry.getPath()));
                 }
             }
         }
@@ -43,19 +42,20 @@ public class ConfigFile {
             boolean first = config.get(entry.getPath()) == null;
             config.set(entry.getPath(), entry.get());
             if (entry instanceof CustomConfigEntry) {
-                ((CustomConfigEntry) entry).save(config.getSection(entry.getPath()), first);
+                ((CustomConfigEntry) entry).save(config.getConfigurationSection(entry.getPath()), first);
             }
         }
-        ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
+        config.save(file);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(String path) {
-        return get(path, (T) config.getDefault(path));
+        return (T) config.get(path);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T get(String path, T def) {
-        return config.get(path, def);
+        return (T) config.get(path, def);
     }
 
     public void set(String path, Object object) {
@@ -66,7 +66,7 @@ public class ConfigFile {
         return id;
     }
 
-    public Plugin getOwner() {
+    public JavaPlugin getOwner() {
         return owner;
     }
 
@@ -78,7 +78,7 @@ public class ConfigFile {
         return entries;
     }
 
-    public Configuration getHandle() {
+    public FileConfiguration getHandle() {
         return config;
     }
 

@@ -1,8 +1,8 @@
-package me.jaimemartz.faucet.bungee;
+package me.jaimemartz.faucet.spigot;
 
 import me.jaimemartz.faucet.ConfigEntry;
-import net.md_5.bungee.api.plugin.Plugin;
 import org.apache.commons.lang3.Validate;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ public final class ConfigFactory {
     private ConfigFactory() {}
 
     @SuppressWarnings("ResultOfMethodCallIgnored, Duplicates")
-    public static ConfigFile register(int id, String name, Plugin owner) {
+    public static ConfigFile register(int id, String name, JavaPlugin owner) {
         Validate.isTrue(!configs.containsKey(id), "A configuration with this id is already registered");
         owner.getDataFolder().mkdir();
         ConfigFile file = new ConfigFile(id, owner, name);
@@ -47,7 +47,7 @@ public final class ConfigFactory {
         if (resource) {
             try {
                 if (!file.getFile().exists()) {
-                    try (InputStream in = file.getOwner().getResourceAsStream(file.getFile().getName())) {
+                    try (InputStream in = file.getOwner().getResource(file.getFile().getName())) {
                         Files.copy(in, file.getFile().toPath());
                     }
                 }
@@ -59,7 +59,13 @@ public final class ConfigFactory {
             try {
                 if (file.getFile().createNewFile()) {
                     file.load(false);
-                    file.save();
+                    for (ConfigEntry entry : file.getEntries()) {
+                        boolean first = file.get(entry.getPath()) == null;
+                        file.getHandle().addDefault(entry.getPath(), entry.get());
+                        if (entry instanceof CustomConfigEntry) {
+                            ((CustomConfigEntry) entry).save(file.getHandle().getConfigurationSection(entry.getPath()), first);
+                        }
+                    }
                 } else {
                     file.load(true);
                 }

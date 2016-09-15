@@ -41,4 +41,15 @@ public class ConfigEntry<T> {
     public static ConfigEntry[] values() {
         return values.toArray(new ConfigEntry[values.size()]);
     }
+
+    public static String path(String... parts) {
+        final StringBuilder builder = new StringBuilder();
+        int index = 0;
+        while (index < (parts.length - 1)) {
+            builder.append(parts [index++]);
+            builder.append(".");
+        }
+        builder.append(parts [index]);
+        return builder.toString();
+    }
 }
