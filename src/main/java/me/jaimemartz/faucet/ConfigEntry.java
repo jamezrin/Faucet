@@ -1,6 +1,6 @@
 package me.jaimemartz.faucet;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ConfigEntry<T> {
@@ -13,7 +13,7 @@ public class ConfigEntry<T> {
         this.path = path;
         this.value = value;
 
-        values.add(this);
+        entries.add(this);
     }
 
     public T get() {
@@ -37,9 +37,9 @@ public class ConfigEntry<T> {
         return String.valueOf(value);
     }
 
-    private static final Set<ConfigEntry> values = new HashSet<>();
+    private static final Set<ConfigEntry> entries = new LinkedHashSet<>();
     public static ConfigEntry[] values() {
-        return values.toArray(new ConfigEntry[values.size()]);
+        return entries.toArray(new ConfigEntry[entries.size()]);
     }
 
     public static String path(String... parts) {
