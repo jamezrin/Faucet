@@ -3,7 +3,7 @@ package me.jaimemartz.faucet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class ConfigEntry<T> {
+public class ConfigEntry <T> {
     private final int id;
     private final String path;
     private T value;

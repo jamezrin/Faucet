@@ -1,6 +1,5 @@
-package me.jaimemartz.faucet.bungee;
+package me.jaimemartz.faucet;
 
-import me.jaimemartz.faucet.ConfigEntry;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.apache.commons.lang3.Validate;
 

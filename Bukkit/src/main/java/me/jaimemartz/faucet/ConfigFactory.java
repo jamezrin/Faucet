@@ -1,6 +1,5 @@
-package me.jaimemartz.faucet.spigot;
+package me.jaimemartz.faucet;
 
-import me.jaimemartz.faucet.ConfigEntry;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -61,9 +60,12 @@ public final class ConfigFactory {
                     file.load(false);
                     for (ConfigEntry entry : file.getEntries()) {
                         boolean first = file.get(entry.getPath()) == null;
-                        file.getHandle().addDefault(entry.getPath(), entry.get());
-                        if (entry instanceof CustomConfigEntry) {
-                            ((CustomConfigEntry) entry).save(file.getHandle().getConfigurationSection(entry.getPath()), first);
+                        Object object = entry.get();
+                        if (object instanceof ConfigObject) {
+                            file.getHandle().addDefault(entry.getPath(), null);
+                            ((ConfigObject) object).save(file.getHandle().getConfigurationSection(entry.getPath()), first);
+                        } else {
+                            file.getHandle().addDefault(entry.getPath(), object);
                         }
                     }
                 } else {

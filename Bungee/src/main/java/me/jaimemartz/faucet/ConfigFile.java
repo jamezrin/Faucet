@@ -1,6 +1,5 @@
-package me.jaimemartz.faucet.bungee;
+package me.jaimemartz.faucet;
 
-import me.jaimemartz.faucet.ConfigEntry;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
@@ -30,10 +29,11 @@ public class ConfigFile {
         config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         if (update) {
             for (ConfigEntry entry : entries) {
-                entry.set(config.get(entry.getPath(), entry.get()));
-                if (entry instanceof CustomConfigEntry) {
-                    ((CustomConfigEntry) entry).load(config.getSection(entry.getPath()));
+                Object object = entry.get();
+                if (object instanceof ConfigObject) {
+                    ((ConfigObject) object).load(config.getSection(entry.getPath()));
                 }
+                entry.set(config.get(entry.getPath(), entry.get()));
             }
         }
     }
@@ -41,10 +41,14 @@ public class ConfigFile {
     public void save() throws IOException {
         for (ConfigEntry entry : entries) {
             boolean first = config.get(entry.getPath()) == null;
-            config.set(entry.getPath(), entry.get());
-            if (entry instanceof CustomConfigEntry) {
-                ((CustomConfigEntry) entry).save(config.getSection(entry.getPath()), first);
+            Object object = entry.get();
+            if (object instanceof ConfigObject) {
+                config.set(entry.getPath(), null);
+                ((ConfigObject) object).save(config.getSection(entry.getPath()), first);
+            } else {
+                config.set(entry.getPath(), entry.get());
             }
+            config.set(entry.getPath(), entry.get());
         }
         ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
     }

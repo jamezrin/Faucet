@@ -1,6 +1,5 @@
-package me.jaimemartz.faucet.spigot;
+package me.jaimemartz.faucet;
 
-import me.jaimemartz.faucet.ConfigEntry;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,10 +28,11 @@ public class ConfigFile {
         config = YamlConfiguration.loadConfiguration(file);
         if (update) {
             for (ConfigEntry entry : entries) {
-                entry.set(config.get(entry.getPath(), entry.get()));
-                if (entry instanceof CustomConfigEntry) {
-                    ((CustomConfigEntry) entry).load(config.getConfigurationSection(entry.getPath()));
+                Object object = entry.get();
+                if (object instanceof ConfigObject) {
+                    ((ConfigObject) object).load(config.getConfigurationSection(entry.getPath()));
                 }
+                entry.set(config.get(entry.getPath(), entry.get()));
             }
         }
     }
@@ -40,9 +40,12 @@ public class ConfigFile {
     public void save() throws IOException {
         for (ConfigEntry entry : entries) {
             boolean first = config.get(entry.getPath()) == null;
-            config.set(entry.getPath(), entry.get());
-            if (entry instanceof CustomConfigEntry) {
-                ((CustomConfigEntry) entry).save(config.getConfigurationSection(entry.getPath()), first);
+            Object object = entry.get();
+            if (object instanceof ConfigObject) {
+                config.set(entry.getPath(), null);
+                ((ConfigObject) object).save(config.getConfigurationSection(entry.getPath()), first);
+            } else {
+                config.set(entry.getPath(), entry.get());
             }
         }
         config.save(file);
