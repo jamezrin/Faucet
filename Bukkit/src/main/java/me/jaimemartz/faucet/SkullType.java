@@ -117,7 +117,7 @@ public enum SkullType {
 
     public static SkullType from(EntityType type) {
         for (SkullType skull : values()) {
-            if (skull.getEntityType() == type) {
+            if (type == skull.getEntityType()) {
                 return skull;
             }
         }
