@@ -10,21 +10,21 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>faucet-bungee</artifactId>
+    <artifactId>faucet-database</artifactId>
     <version>1.1</version>
 
-    <name>Faucet Bungee</name>
+    <name>Faucet Database</name>
 
     <dependencies>
         <dependency>
-            <groupId>me.jaimemartz</groupId>
-            <artifactId>faucet-core</artifactId>
-            <version>1.1</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
         <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.9-SNAPSHOT</version>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.5.1</version>
         </dependency>
     </dependencies>
 </project>
