@@ -51,7 +51,6 @@ public class ServerListPing {
     public static StatusResponse ping(InetSocketAddress host) throws IOException {
         try (Socket socket = new Socket()) {
             socket.setSoTimeout(timeout);
-
             socket.connect(host, timeout);
 
             try (DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
@@ -150,7 +149,6 @@ public class ServerListPing {
         public void setTime(int time) {
             this.time = time;
         }
-
     }
 
     public static class Players {
@@ -182,7 +180,6 @@ public class ServerListPing {
         public String getId() {
             return id;
         }
-
     }
 
     public static class Version {
