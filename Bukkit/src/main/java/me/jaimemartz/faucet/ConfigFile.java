@@ -1,5 +1,6 @@
 package me.jaimemartz.faucet;
 
+import org.apache.commons.lang3.Validate;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +16,7 @@ public class ConfigFile {
     private final File file;
     private final Set<ConfigEntry> entries;
     private FileConfiguration config;
+    private boolean loaded = false;
 
     public ConfigFile(int id, JavaPlugin owner, String name) {
         this.id = id;
@@ -35,9 +37,11 @@ public class ConfigFile {
                 entry.set(config.get(entry.getPath(), entry.get()));
             }
         }
+        loaded = true;
     }
 
     public void save() throws IOException {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         for (ConfigEntry entry : entries) {
             boolean first = config.get(entry.getPath()) == null;
             Object object = entry.get();
@@ -53,15 +57,18 @@ public class ConfigFile {
 
     @SuppressWarnings("unchecked")
     public <T> T get(String path) {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         return (T) config.get(path);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(String path, T def) {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         return (T) config.get(path, def);
     }
 
     public void set(String path, Object object) {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         config.set(path, object);
     }
 
@@ -86,6 +93,6 @@ public class ConfigFile {
     }
 
     public boolean isLoaded() {
-        return config != null;
+        return loaded;
     }
 }

@@ -4,6 +4,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import org.apache.commons.lang3.Validate;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class ConfigFile {
     private final Plugin owner;
     private final File file;
     private final Set<ConfigEntry> entries;
+    private boolean loaded = false;
     private Configuration config;
 
     public ConfigFile(int id, Plugin owner, String name) {
@@ -36,9 +38,11 @@ public class ConfigFile {
                 entry.set(config.get(entry.getPath(), entry.get()));
             }
         }
+        loaded = true;
     }
 
     public void save() throws IOException {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         for (ConfigEntry entry : entries) {
             boolean first = config.get(entry.getPath()) == null;
             Object object = entry.get();
@@ -55,14 +59,17 @@ public class ConfigFile {
 
     @SuppressWarnings("unchecked")
     public <T> T get(String path) {
-        return get(path, (T) config.getDefault(path));
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
+        return config.get(path, (T) config.getDefault(path));
     }
 
     public <T> T get(String path, T def) {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         return config.get(path, def);
     }
 
     public void set(String path, Object object) {
+        Validate.isTrue(loaded, "The configuration has not been loaded yet");
         config.set(path, object);
     }
 
@@ -87,6 +94,6 @@ public class ConfigFile {
     }
 
     public boolean isLoaded() {
-        return config != null;
+        return loaded;
     }
 }
