@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.List;
 
-public class ServerListPing {
+public final class ServerListPing {
     private static int timeout = 7000;
     private static Gson gson = new GsonBuilder()
             .registerTypeAdapter(BaseComponent.class, new ComponentSerializer())
@@ -80,8 +80,8 @@ public class ServerListPing {
                 if (id != 0x00) { //we want a status response
                     throw new IOException("Invalid packetID");
                 }
-                int length = readVarInt(dataInputStream); //length of json string
 
+                int length = readVarInt(dataInputStream); //length of json string
                 if (length == -1) {
                     throw new IOException("Premature end of stream.");
                 }

@@ -17,6 +17,13 @@ public final class Messager {
         return this;
     }
 
+    public Messager send(String... texts) {
+        for (String text : texts) {
+            send(colorize(text));
+        }
+        return this;
+    }
+
     public Messager send(BaseComponent... components) {
         sender.sendMessage(components);
         return this;

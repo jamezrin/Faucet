@@ -15,6 +15,13 @@ public final class Messager {
         return this;
     }
 
+    public Messager send(String... texts) {
+        for (String text : texts) {
+            send(colorize(text));
+        }
+        return this;
+    }
+
     public static Messager send(CommandSender sender, String text) {
         return new Messager(sender).send(text);
     }
