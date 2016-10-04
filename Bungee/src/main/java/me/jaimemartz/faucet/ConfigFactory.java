@@ -10,8 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class ConfigFactory {
-    private ConfigFactory() {}
-
     public ConfigFile register(int id, String name, Plugin owner) {
         Validate.isTrue(!configs.containsKey(id), "A configuration with this id is already registered");
         owner.getDataFolder().mkdir();
