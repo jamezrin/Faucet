@@ -12,8 +12,7 @@ import java.util.Map;
 public final class ConfigFactory {
     private ConfigFactory() {}
 
-    @SuppressWarnings("ResultOfMethodCallIgnored, Duplicates")
-    public static ConfigFile register(int id, String name, Plugin owner) {
+    public ConfigFile register(int id, String name, Plugin owner) {
         Validate.isTrue(!configs.containsKey(id), "A configuration with this id is already registered");
         owner.getDataFolder().mkdir();
         ConfigFile file = new ConfigFile(id, owner, name);
@@ -21,7 +20,7 @@ public final class ConfigFactory {
         return file;
     }
 
-    public static void submit(ConfigEntry... entries) {
+    public void submit(ConfigEntry... entries) {
         Validate.notEmpty(entries);
         for (ConfigEntry entry : entries) {
             ConfigFile file = get(entry.getId());
@@ -29,19 +28,19 @@ public final class ConfigFactory {
         }
     }
 
-    public static ConfigFile get(int id) {
+    public ConfigFile get(int id) {
         ConfigFile file = configs.get(id);
         Validate.notNull(file, "No such configuration registered with that id");
         return file;
     }
 
-    public static ConfigFile get(String name) {
+    public ConfigFile get(String name) {
         ConfigFile file = configs.values().stream().filter(name::equals).findAny().orElse(null);
         Validate.notNull(file, "No such configuration found registered with that name");
         return file;
     }
 
-    public static void load(int id, boolean resource) {
+    public void load(int id, boolean resource) {
         ConfigFile file = get(id);
         if (resource) {
             try {
@@ -68,7 +67,7 @@ public final class ConfigFactory {
         }
     }
 
-    public static void save(int id) {
+    public void save(int id) {
         ConfigFile file = get(id);
         try {
             file.save();
@@ -77,5 +76,5 @@ public final class ConfigFactory {
         }
     }
 
-    private static final Map<Integer, ConfigFile> configs = new LinkedHashMap<>();
+    private final Map<Integer, ConfigFile> configs = new LinkedHashMap<>();
 }

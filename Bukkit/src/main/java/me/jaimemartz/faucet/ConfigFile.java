@@ -25,7 +25,6 @@ public class ConfigFile {
         file = new File(owner.getDataFolder(), name);
     }
 
-    @SuppressWarnings("unchecked")
     public void load(boolean update) throws IOException {
         config = YamlConfiguration.loadConfiguration(file);
         if (update) {
@@ -55,13 +54,11 @@ public class ConfigFile {
         config.save(file);
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(String path) {
         Validate.isTrue(loaded, "The configuration has not been loaded yet");
         return (T) config.get(path);
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(String path, T def) {
         Validate.isTrue(loaded, "The configuration has not been loaded yet");
         return (T) config.get(path, def);

@@ -14,10 +14,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.List;
 
-public final class ServerListPing {
-    private static int timeout = 7000;
+public class ServerListPing {
+    private int timeout = 7000;
     private static Gson gson = new GsonBuilder()
             .registerTypeAdapter(BaseComponent.class, new ComponentSerializer())
             .registerTypeAdapter(TextComponent.class, new TextComponentSerializer())
@@ -48,7 +47,7 @@ public final class ServerListPing {
         }
     }
 
-    public static StatusResponse ping(InetSocketAddress host) throws IOException {
+    public StatusResponse ping(InetSocketAddress host) throws IOException {
         try (Socket socket = new Socket()) {
             socket.setSoTimeout(timeout);
             socket.connect(host, timeout);
@@ -118,88 +117,11 @@ public final class ServerListPing {
         }
     }
 
-
-    public static class StatusResponse {
-        private BaseComponent description;
-        private Players players;
-        private Version version;
-        private String favicon;
-        private int time;
-
-        public BaseComponent getDescription() {
-            return description;
-        }
-
-        public Players getPlayers() {
-            return players;
-        }
-
-        public Version getVersion() {
-            return version;
-        }
-
-        public String getFavicon() {
-            return favicon;
-        }
-
-        public int getTime() {
-            return time;
-        }
-
-        public void setTime(int time) {
-            this.time = time;
-        }
+    public void setTimeout(int timeout) {
+         this.timeout = timeout;
     }
 
-    public static class Players {
-        private int max;
-        private int online;
-        private List<Player> sample;
-
-        public int getMax() {
-            return max;
-        }
-
-        public int getOnline() {
-            return online;
-        }
-
-        public List<Player> getSample() {
-            return sample;
-        }
-    }
-
-    public static class Player {
-        private String name;
-        private String id;
-
-        public String getName() {
-            return name;
-        }
-
-        public String getId() {
-            return id;
-        }
-    }
-
-    public static class Version {
-        private String name;
-        private String protocol;
-
-        public String getName() {
-            return name;
-        }
-
-        public String getProtocol() {
-            return protocol;
-        }
-    }
-
-    public static void setTimeout(int millis) {
-        timeout = millis;
-    }
-
-    public static int getTimeout() {
+    public int getTimeout() {
         return timeout;
     }
 }

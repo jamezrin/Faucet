@@ -26,7 +26,6 @@ public class ConfigFile {
         file = new File(owner.getDataFolder(), name);
     }
 
-    @SuppressWarnings("unchecked")
     public void load(boolean update) throws IOException {
         config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         if (update) {
@@ -57,7 +56,6 @@ public class ConfigFile {
         ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(String path) {
         Validate.isTrue(loaded, "The configuration has not been loaded yet");
         return config.get(path, (T) config.getDefault(path));
