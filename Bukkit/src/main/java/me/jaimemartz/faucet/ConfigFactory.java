@@ -10,7 +10,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class ConfigFactory {
-    public ConfigFile register(int id, String name, JavaPlugin owner) {
+    private final JavaPlugin owner;
+    public ConfigFactory(JavaPlugin owner) {
+        this.owner = owner;
+    }
+
+    public ConfigFile register(int id, String name) {
         Validate.isTrue(!configs.containsKey(id), "A configuration with this id is already registered");
         owner.getDataFolder().mkdir();
         ConfigFile file = new ConfigFile(id, owner, name);
@@ -81,6 +86,10 @@ public final class ConfigFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public JavaPlugin getOwner() {
+        return owner;
     }
 
     private final Map<Integer, ConfigFile> configs = new LinkedHashMap<>();
