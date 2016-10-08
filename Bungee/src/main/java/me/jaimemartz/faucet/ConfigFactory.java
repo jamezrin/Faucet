@@ -10,9 +10,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class ConfigFactory {
+    private final Map<Integer, ConfigFile> configs;
     private final Plugin owner;
     public ConfigFactory(Plugin owner) {
+        Validate.notNull(owner);
+        this.configs = new LinkedHashMap<>();
         this.owner = owner;
+
+        ConfigFactory instance = instances.putIfAbsent(owner, this);
+        Validate.isTrue(instance == null, "There is an factory already registered to that plugin");
     }
 
     public ConfigFile register(int id, String name) {
@@ -83,5 +89,10 @@ public final class ConfigFactory {
         return owner;
     }
 
-    private final Map<Integer, ConfigFile> configs = new LinkedHashMap<>();
+    public static final Map<Plugin, ConfigFactory> instances = new LinkedHashMap<>();
+
+    public static ConfigFactory getFactory(Plugin plugin) {
+        Validate.notNull(plugin);
+        return instances.get(plugin);
+    }
 }
