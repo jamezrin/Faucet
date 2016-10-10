@@ -5,7 +5,7 @@ public class ConfigEntry <T> {
     private final String path;
     private T value;
 
-    protected ConfigEntry(int id, String path, T value) {
+    public ConfigEntry(int id, String path, T value) {
         this.id = id;
         this.path = path;
         this.value = value;

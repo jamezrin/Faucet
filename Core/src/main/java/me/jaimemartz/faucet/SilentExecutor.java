@@ -5,7 +5,7 @@ public abstract class SilentExecutor {
         try {
             execute();
         } catch (Exception e) {
-
+            //Nothing to do
         }
     }
 

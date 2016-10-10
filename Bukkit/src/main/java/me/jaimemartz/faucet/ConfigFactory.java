@@ -5,10 +5,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public final class ConfigFactory {
     private final Map<Integer, ConfigFile> configs;
     private final JavaPlugin owner;
@@ -34,6 +36,21 @@ public final class ConfigFactory {
         for (ConfigEntry entry : entries) {
             ConfigFile file = get(entry.getId());
             file.getEntries().add(entry);
+        }
+    }
+
+    public void submit(Class<? extends ConfigEntryHolder> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            if (field.getType().equals(ConfigEntry.class)) {
+                try {
+                    ConfigEntry entry = (ConfigEntry) field.get(null);
+                    if (entry != null) {
+                        submit(entry);
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
