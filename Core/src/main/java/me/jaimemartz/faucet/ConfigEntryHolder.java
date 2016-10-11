@@ -1,5 +1,6 @@
 package me.jaimemartz.faucet;
 
-public interface ConfigEntryHolder {
-
-}
+/**
+ * Simple interface for tagging all the config handlers
+ */
+public interface ConfigEntryHolder {}

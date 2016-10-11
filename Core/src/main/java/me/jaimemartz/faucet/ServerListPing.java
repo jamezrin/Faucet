@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+/**
+ * Class for fetching information of servers
+ * @see StatusResponse
+ */
 public class ServerListPing {
     private int timeout = 7000;
     private static Gson gson = new GsonBuilder()

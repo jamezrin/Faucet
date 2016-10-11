@@ -25,7 +25,7 @@ public final class StringCombiner {
     }
 
     public static String combine(Collection<String> coll, int startIndex, int stopIndex, String delimiter) {
-        return combine(coll.toArray(new String[coll.size()]), startIndex, stopIndex, delimiter);
+        return combine(coll.stream().toArray(String[]::new), startIndex, stopIndex, delimiter);
     }
 
     public static String combine(Collection<String> coll, int startIndex, String delimiter) {
