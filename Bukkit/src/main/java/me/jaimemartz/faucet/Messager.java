@@ -11,13 +11,13 @@ public final class Messager {
     }
 
     public Messager send(String text) {
-        send(colorize(text));
+        sender.sendMessage(colorize(text));
         return this;
     }
 
     public Messager send(String... texts) {
         for (String text : texts) {
-            send(colorize(text));
+            send(text);
         }
         return this;
     }
