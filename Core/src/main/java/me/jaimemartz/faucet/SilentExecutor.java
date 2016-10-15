@@ -1,5 +1,8 @@
 package me.jaimemartz.faucet;
 
+/**
+ * Simple class that silences exceptions
+ */
 public abstract class SilentExecutor {
     public SilentExecutor() {
         try {

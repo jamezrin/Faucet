@@ -41,12 +41,10 @@ public final class ConfigFactory {
 
     public void submit(Class<? extends ConfigEntryHolder> clazz) {
         for (Field field : clazz.getDeclaredFields()) {
-            if (field.getType().equals(ConfigEntry.class)) {
+            if (field.getType().isAssignableFrom(ConfigEntry.class)) {
                 try {
                     ConfigEntry entry = (ConfigEntry) field.get(null);
-                    if (entry != null) {
-                        submit(entry);
-                    }
+                    submit(entry);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

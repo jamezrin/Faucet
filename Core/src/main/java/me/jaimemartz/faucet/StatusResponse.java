@@ -4,6 +4,9 @@ import net.md_5.bungee.api.chat.BaseComponent;
 
 import java.util.List;
 
+/**
+ * @see ServerListPing
+ */
 public class StatusResponse {
     private BaseComponent description;
     private Players players;
