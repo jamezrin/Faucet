@@ -33,8 +33,10 @@ public class ConfigFile {
                 Object value = entry.get();
                 if (value instanceof ConfigObject) {
                     ((ConfigObject) value).get(config.getSection(entry.getPath()));
+                    entry.set(value);
+                } else {
+                    entry.set(config.get(entry.getPath(), entry.get()));
                 }
-                entry.set(config.get(entry.getPath(), entry.get()));
             }
         }
         loaded = true;

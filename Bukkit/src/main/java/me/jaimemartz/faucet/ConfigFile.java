@@ -32,8 +32,10 @@ public class ConfigFile {
                 Object value = entry.get();
                 if (value instanceof ConfigObject) {
                     ((ConfigObject) value).get(config.getConfigurationSection(entry.getPath()));
+                    entry.set(value);
+                } else {
+                    entry.set(config.get(entry.getPath(), entry.get()));
                 }
-                entry.set(config.get(entry.getPath(), entry.get()));
             }
         }
         loaded = true;
@@ -45,8 +47,7 @@ public class ConfigFile {
             boolean first = config.get(entry.getPath()) == null;
             Object object = entry.get();
             if (object instanceof ConfigObject) {
-                config.set(entry.getPath(), null);
-                ((ConfigObject) object).set(config.getConfigurationSection(entry.getPath()), first);
+                ((ConfigObject) object).set(config.createSection(entry.getPath()), first);
             } else {
                 config.set(entry.getPath(), entry.get());
             }
