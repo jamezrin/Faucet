@@ -88,7 +88,7 @@ public final class ConfigFactory {
                     file.load(true);
                 }
             } catch (IOException e) {
-                new IOException("Could not load the file", e).printStackTrace();
+                new IOException("Could not get the file", e).printStackTrace();
             }
         }
     }

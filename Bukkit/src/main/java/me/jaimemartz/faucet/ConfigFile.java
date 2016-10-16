@@ -29,9 +29,9 @@ public class ConfigFile {
         config = YamlConfiguration.loadConfiguration(file);
         if (update) {
             for (ConfigEntry entry : entries) {
-                Object object = entry.get();
-                if (object instanceof ConfigObject) {
-                    ((ConfigObject) object).load(config.getConfigurationSection(entry.getPath()));
+                Object value = entry.get();
+                if (value instanceof ConfigObject) {
+                    ((ConfigObject) value).get(config.getConfigurationSection(entry.getPath()));
                 }
                 entry.set(config.get(entry.getPath(), entry.get()));
             }
@@ -46,7 +46,7 @@ public class ConfigFile {
             Object object = entry.get();
             if (object instanceof ConfigObject) {
                 config.set(entry.getPath(), null);
-                ((ConfigObject) object).save(config.getConfigurationSection(entry.getPath()), first);
+                ((ConfigObject) object).set(config.getConfigurationSection(entry.getPath()), first);
             } else {
                 config.set(entry.getPath(), entry.get());
             }

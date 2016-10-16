@@ -81,21 +81,12 @@ public final class ConfigFactory {
             try {
                 if (file.getFile().createNewFile()) {
                     file.load(false);
-                    for (ConfigEntry entry : file.getEntries()) {
-                        boolean first = file.get(entry.getPath()) == null;
-                        Object object = entry.get();
-                        if (object instanceof ConfigObject) {
-                            file.getHandle().addDefault(entry.getPath(), null);
-                            ((ConfigObject) object).save(file.getHandle().getConfigurationSection(entry.getPath()), first);
-                        } else {
-                            file.getHandle().addDefault(entry.getPath(), object);
-                        }
-                    }
+                    file.save();
                 } else {
                     file.load(true);
                 }
             } catch (IOException e) {
-                new IOException("Could not load the file", e).printStackTrace();
+                new IOException("Could not get the file", e).printStackTrace();
             }
         }
     }

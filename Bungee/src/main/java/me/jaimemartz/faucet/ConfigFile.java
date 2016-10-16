@@ -30,9 +30,9 @@ public class ConfigFile {
         config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         if (update) {
             for (ConfigEntry entry : entries) {
-                Object object = entry.get();
-                if (object instanceof ConfigObject) {
-                    ((ConfigObject) object).load(config.getSection(entry.getPath()));
+                Object value = entry.get();
+                if (value instanceof ConfigObject) {
+                    ((ConfigObject) value).get(config.getSection(entry.getPath()));
                 }
                 entry.set(config.get(entry.getPath(), entry.get()));
             }
@@ -47,11 +47,10 @@ public class ConfigFile {
             Object object = entry.get();
             if (object instanceof ConfigObject) {
                 config.set(entry.getPath(), null);
-                ((ConfigObject) object).save(config.getSection(entry.getPath()), first);
+                ((ConfigObject) object).set(config.getSection(entry.getPath()), first);
             } else {
                 config.set(entry.getPath(), entry.get());
             }
-            config.set(entry.getPath(), entry.get());
         }
         ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
     }
