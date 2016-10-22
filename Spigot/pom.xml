@@ -10,10 +10,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>faucet-bukkit</artifactId>
+    <artifactId>faucet-spigot</artifactId>
     <version>1.1</version>
 
-    <name>Faucet Bukkit</name>
+    <name>Faucet Spigot</name>
 
     <repositories>
         <repository>
@@ -29,8 +29,8 @@
             <version>1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>1.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>

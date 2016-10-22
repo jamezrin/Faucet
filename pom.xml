@@ -14,7 +14,7 @@
     <modules>
         <module>Core</module>
         <module>Bungee</module>
-        <module>Bukkit</module>
+        <module>Spigot</module>
         <module>Database</module>
     </modules>
 
