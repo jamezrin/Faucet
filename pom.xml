@@ -40,13 +40,13 @@
     </repositories>
 
     <dependencies>
+        <!--
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <optional>true</optional>
-            <scope>provided</scope>
+            <groupId>me.jaimemartz</groupId>
+            <artifactId>faucet-core</artifactId>
+            <version>1.1</version>
         </dependency>
+        -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
