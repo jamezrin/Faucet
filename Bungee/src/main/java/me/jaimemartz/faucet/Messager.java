@@ -12,29 +12,29 @@ public final class Messager {
         this.sender = sender;
     }
 
-    public Messager send(String text) {
-        send(transform(text));
-        return this;
-    }
-
-    public Messager send(String... texts) {
-        for (String text : texts) {
-            send(text);
+    public void send(String string) {
+        if (string != null) {
+            send(TextComponent.fromLegacyText(colorize(string)));
         }
-        return this;
     }
 
-    public Messager send(BaseComponent... components) {
+    public void send(String... strings) {
+        for (String string : strings) {
+            send(string);
+        }
+    }
+
+    public void send(String string, Replacement... replacements) {
+        if (string != null) {
+            for (Replacement replacement : replacements) {
+                string = replacement.replace(string);
+            }
+            send(string);
+        }
+    }
+
+    public void send(BaseComponent... components) {
         sender.sendMessage(components);
-        return this;
-    }
-
-    public static Messager send(CommandSender sender, String text) {
-        return new Messager(sender).send(text);
-    }
-
-    public static Messager send(CommandSender sender, BaseComponent... components) {
-        return new Messager(sender).send(components);
     }
 
     public static String colorize(String text) {
@@ -43,9 +43,5 @@ public final class Messager {
 
     public static String decolorize(String text) {
         return ChatColor.stripColor(text);
-    }
-
-    public static BaseComponent[] transform(String text) {
-        return TextComponent.fromLegacyText(colorize(text));
     }
 }

@@ -6,12 +6,12 @@
     <parent>
         <groupId>me.jaimemartz</groupId>
         <artifactId>faucet-parent</artifactId>
-        <version>1.1</version>
+        <version>parent</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>faucet-spigot</artifactId>
-    <version>1.1</version>
+    <version>${faucet.version}</version>
 
     <name>Faucet Spigot</name>
 
@@ -26,7 +26,7 @@
         <dependency>
             <groupId>me.jaimemartz</groupId>
             <artifactId>faucet-core</artifactId>
-            <version>1.1</version>
+            <version>${faucet.version}</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
